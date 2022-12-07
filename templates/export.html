@@ -1,0 +1,12 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <h1>Tracker List</h1>
+        <ul>
+        {% for r in data %}
+            <li>{{ r.name }} : {{ r.desc }}</li>
+        {% endfor %}
+        </ul>
+    </body>
+</html>

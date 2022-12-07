@@ -1,0 +1,276 @@
+QualifiedSelf: "1.0.1"
+info: 
+    version: "1.0.1"
+    title: Qualified Self App
+
+host: localhost:5000
+basePath: /
+schemes:
+  -http
+paths:
+  /api/login:
+    post:
+      description: Authenticate user and returns 'Token','Email','Username' and 'Name'
+      body:
+        - username: username
+          pswd: password
+      responses:
+        200:
+          description: OK
+        default:
+          description: ERROR
+
+  /api/isAuth:
+    get:
+      body:
+        - token: JWT Token 
+      responses:
+        200:
+          description: OK, returns auth status and username
+        default:
+          description: ERROR
+    
+  /api/signup:
+    post:
+      description: Creates user and returns 'Token','Email','Username' and 'Name'
+      body:
+        - username: username
+          name: name
+          email: email
+          pswd: password
+      responses:
+        200:
+          description: OK, returns 'Token','Email','Username' and 'Name'
+        default:
+          description: ERROR
+
+  /tracker/:username:
+    get:
+      description: Gets all Trackers of the user
+
+      headers:
+        Content-type: application/json,
+        Authorization: Bearer + {token},
+        Access-Control-Allow-Origin : '*',
+        Access-Control-Allow-Methods: 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+      
+      parameters:
+        - username: username
+      responses:
+        200:
+          description: OK, get trackers details
+
+        401:
+          description: Unauthorised
+        
+        default:
+          description: ERROR
+
+    post:
+      description: Creates a new tracker for the particular user
+      body:
+        - username: username(paramaters)
+          name: name
+          desc: desc
+          tracker_type: Tracker Type
+      responses:
+        200:
+          description: OK
+        
+        401:
+          description: Unauthorised
+        
+        default:
+          description: ERROR
+
+  /tracker/:username/:tracker_id:
+    get:
+      description: Get details of that tracker made by the user
+
+      headers:
+        Content-type: application/json,
+        Authorization: Bearer + {token},
+        Access-Control-Allow-Origin : '*',
+        Access-Control-Allow-Methods: 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+
+      parameters:
+        - username: username
+          tracker_id: tracker_id
+      responses:
+        200:
+          description: OK, returns tracker details
+        
+        401:
+          description: Unauthorised
+        
+        default:
+          description: ERROR
+
+    put:
+      description: Edit details of that tracker made by the user
+
+      headers:
+        Content-type: application/json,
+        Authorization: Bearer + {token},
+        Access-Control-Allow-Origin : '*',
+        Access-Control-Allow-Methods: 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+      
+      parameters:
+        - username: username
+          tracker_id: tracker_id
+      body:
+        - name: Tracker Name
+          desc: Tracker Description
+          tracker_type: Tracker Type
+          settings: Tracker Settings
+      responses:
+        200:
+          description: OK, edit tracker details
+        
+        401:
+          description: Unauthorised
+        
+        default:
+          description: ERROR
+
+    delete:
+        description: Delete tracker 
+
+        headers:
+          Content-type: application/json,
+          Authorization: Bearer + {token},
+          Access-Control-Allow-Origin : '*',
+          Access-Control-Allow-Methods: 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+
+        parameters:
+          - username: username
+            tracker_id: tracker_id
+
+        responses:
+          200:
+            description: OK, tracker deleted
+          
+          401:
+            description: Unauthorised
+          
+          default:
+            description: ERROR
+
+  /tracker/:tracker_id:
+    get:
+      description: Get details of the daily logs of the tracker
+
+      headers:
+        Content-type: application/json,
+        Authorization: Bearer + {token},
+        Access-Control-Allow-Origin : '*',
+        Access-Control-Allow-Methods: 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+
+      parameters:
+        - tracker_id: tracker_id
+      responses:
+        200:
+          description: OK, returns daily logs of that tracker
+        
+        401:
+          description: Unauthorised
+        
+        default:
+          description: ERROR
+
+    post:
+      description: Create new daily log of that tracker
+
+      headers:
+        Content-type: application/json,
+        Authorization: Bearer + {token},
+        Access-Control-Allow-Origin : '*',
+        Access-Control-Allow-Methods: 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+
+      body:
+              - timestamp: Time at which user logs in value,
+                value: Value of the Log
+                note: Any specific note related to log
+                tracker_id: ID of the tracker
+
+      responses:
+        200:
+          description: OK, create a new log the tracker
+        
+        401:
+          description: Unauthorised
+        
+        default:
+          description: ERROR
+
+  /log/:id:
+    get:
+      description: Get details of the daily log by id
+
+      headers:
+        Content-type: application/json,
+        Authorization: Bearer + {token},
+        Access-Control-Allow-Origin : '*',
+        Access-Control-Allow-Methods: 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+
+      parameters:
+        - id: ID of the Log
+      responses:
+        200:
+          description: OK, returns daily log details by ID
+        
+        401:
+          description: Unauthorised
+        
+        default:
+          description: ERROR
+
+    put:
+      description: Edit daily log by id
+
+      headers:
+        Content-type: application/json,
+        Authorization: Bearer + {token},
+        Access-Control-Allow-Origin : '*',
+        Access-Control-Allow-Methods: 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+
+      parameters:
+        - id: ID of the Log
+      body:
+              - value: edited Value of the Log
+                note: edited note related to log
+
+      responses:
+        200:
+          description: OK, edit the log by id
+        
+        401:
+          description: Unauthorised
+        
+        default:
+          description: ERROR
+
+    delete:
+      description: Delete daily log by id
+
+      headers:
+        Content-type: application/json,
+        Authorization: Bearer + {token},
+        Access-Control-Allow-Origin : '*',
+        Access-Control-Allow-Methods: 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+
+      parameters:
+        - id: ID of the Log
+
+      responses:
+        200:
+          description: OK, deleted the log by id
+        
+        401:
+          description: Unauthorised
+        
+        default:
+          description: ERROR
+
+
+
